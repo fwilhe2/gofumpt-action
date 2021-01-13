@@ -1,0 +1,13 @@
+{
+    "problemMatcher": [
+        {
+            "owner": "gofumpt",
+            "pattern": [
+                {
+                    "regexp": "^(.*)$",
+                    "file": 1
+                }
+            ]
+        }
+    ]
+}

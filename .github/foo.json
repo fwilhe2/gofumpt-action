@@ -4,7 +4,7 @@
             "owner": "gofumpt",
             "pattern": [
                 {
-                    "regexp": "^(.*)$",
+                    "regexp": "^(.*).go$",
                     "message": 1
                 }
             ]

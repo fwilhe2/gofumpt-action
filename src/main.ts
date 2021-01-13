@@ -4,6 +4,10 @@ import * as exec from '@actions/exec'
 import * as fs from 'fs'
 import { ExecOptions } from '@actions/exec'
 
+let myOutput = '';
+let myError = '';
+
+
 async function run(): Promise<void> {
   try {
     const path = await tc.downloadTool(
@@ -11,8 +15,6 @@ async function run(): Promise<void> {
     )
     fs.chmodSync(path, '777')
 
-    let myOutput = '';
-    let myError = '';
 
     const options: ExecOptions = {};
     options.listeners = {
@@ -30,7 +32,10 @@ async function run(): Promise<void> {
 
     }
   } catch (error) {
-    core.setFailed(error.message)
+    // core.setFailed(error.message)
+    core.info(error.message)
+    core.info(`stdout: ${myOutput}`)
+    core.info(`stderr: ${myError}`)
   }
 }
 

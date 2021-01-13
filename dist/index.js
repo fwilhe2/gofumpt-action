@@ -40,13 +40,13 @@ const core = __importStar(__nccwpck_require__(186));
 const tc = __importStar(__nccwpck_require__(784));
 const exec = __importStar(__nccwpck_require__(514));
 const fs = __importStar(__nccwpck_require__(747));
+let myOutput = '';
+let myError = '';
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const path = yield tc.downloadTool('https://github.com/mvdan/gofumpt/releases/download/v0.1.0/gofumpt_v0.1.0_linux_amd64');
             fs.chmodSync(path, '777');
-            let myOutput = '';
-            let myError = '';
             const options = {};
             options.listeners = {
                 stdout: (data) => {
@@ -63,7 +63,10 @@ function run() {
             }
         }
         catch (error) {
-            core.setFailed(error.message);
+            // core.setFailed(error.message)
+            core.info(error.message);
+            core.info(`stdout: ${myOutput}`);
+            core.info(`stderr: ${myError}`);
         }
     });
 }

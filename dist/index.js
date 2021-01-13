@@ -45,7 +45,22 @@ function run() {
         try {
             const path = yield tc.downloadTool('https://github.com/mvdan/gofumpt/releases/download/v0.1.0/gofumpt_v0.1.0_linux_amd64');
             fs.chmodSync(path, '777');
-            yield exec.exec(`${path} -l -w .`);
+            let myOutput = '';
+            let myError = '';
+            const options = {};
+            options.listeners = {
+                stdout: (data) => {
+                    myOutput += data.toString();
+                },
+                stderr: (data) => {
+                    myError += data.toString();
+                }
+            };
+            const exit = yield exec.exec(`${path} -l -w .`, [], options);
+            if (exit > 0) {
+                core.info(`stdout: ${myOutput}`);
+                core.info(`stderr: ${myError}`);
+            }
         }
         catch (error) {
             core.setFailed(error.message);

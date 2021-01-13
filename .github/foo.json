@@ -4,7 +4,8 @@
             "owner": "gofumpt",
             "pattern": [
                 {
-                    "regexp": "^(.*).go$",
+                    "regexp": "^(Found wrong formatted file): (.*)$",
+                    "file": 2,
                     "message": 1
                 }
             ]

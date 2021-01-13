@@ -33,7 +33,11 @@ async function run(): Promise<void> {
     // gofumpt found issues
     exit.catch(e => {
       const lines = myOutput.split("\n")
-      core.info(lines.join(", "))
+
+
+      lines.forEach(element => {
+        core.info(`Found wrong formatted file: ${element}`)
+      });
     })
 
     // no issues found

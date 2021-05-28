@@ -46,7 +46,7 @@ function run() {
         try {
             const matchersPath = path.join(__dirname, '..', '.github');
             core.info(`##[add-matcher]${path.join(matchersPath, 'foo.json')}`);
-            const toolPath = yield tc.downloadTool('https://github.com/mvdan/gofumpt/releases/download/v0.1.0/gofumpt_v0.1.0_linux_amd64');
+            const toolPath = yield tc.downloadTool('https://github.com/mvdan/gofumpt/releases/download/v0.1.1/gofumpt_v0.1.1_linux_amd64');
             fs.chmodSync(toolPath, '777');
             let myOutput = '';
             let myError = '';
@@ -59,17 +59,18 @@ function run() {
                     myError += data.toString();
                 }
             };
-            const exit = exec.exec(`${toolPath} -l -w .`, [], options);
+            exec.exec(`${toolPath} -l -w .`, [], options);
+            const exit = exec.exec('git diff --name-only --exit-code');
             // gofumpt found issues
             exit.catch(e => {
-                const lines = myOutput.split("\n");
+                const lines = myOutput.split('\n');
                 lines.forEach(element => {
                     core.info(`Found wrong formatted file: ${element}`);
                 });
             });
             // no issues found
             exit.then(e => {
-                core.info("no issues found");
+                core.info('no issues found');
             });
         }
         catch (error) {

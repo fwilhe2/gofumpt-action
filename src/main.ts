@@ -12,7 +12,7 @@ async function run(): Promise<void> {
     core.info(`##[add-matcher]${path.join(matchersPath, 'foo.json')}`);
 
     const toolPath = await tc.downloadTool(
-      'https://github.com/mvdan/gofumpt/releases/download/v0.1.0/gofumpt_v0.1.0_linux_amd64'
+      'https://github.com/mvdan/gofumpt/releases/download/v0.1.1/gofumpt_v0.1.1_linux_amd64'
     )
     fs.chmodSync(toolPath, '777')
 

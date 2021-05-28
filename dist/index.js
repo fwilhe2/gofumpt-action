@@ -60,18 +60,14 @@ function run() {
                 }
             };
             exec.exec(`${toolPath} -l -w .`, [], options);
-            const exit = exec.exec('git diff --name-only --exit-code');
-            // gofumpt found issues
-            exit.catch(e => {
+            const exit = yield exec.exec('git diff --name-only --exit-code');
+            if (exit != 0) {
                 const lines = myOutput.split('\n');
                 lines.forEach(element => {
                     core.info(`Found wrong formatted file: ${element}`);
                 });
-            });
-            // no issues found
-            exit.then(e => {
-                core.info('no issues found');
-            });
+                core.setFailed("Errors found");
+            }
         }
         catch (error) {
             core.setFailed(error.message);

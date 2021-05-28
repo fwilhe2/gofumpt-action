@@ -29,21 +29,17 @@ async function run(): Promise<void> {
     }
     exec.exec(`${toolPath} -l -w .`, [], options)
 
-    const exit = exec.exec('git diff --name-only --exit-code')
+    const exit = await exec.exec('git diff --name-only --exit-code')
 
-    // gofumpt found issues
-    exit.catch(e => {
+    if (exit != 0) {
       const lines = myOutput.split('\n')
 
       lines.forEach(element => {
         core.info(`Found wrong formatted file: ${element}`)
       })
-    })
+      core.setFailed("Errors found")
+    }
 
-    // no issues found
-    exit.then(e => {
-      core.info('no issues found')
-    })
   } catch (error) {
     core.setFailed(error.message)
   }
